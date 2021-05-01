@@ -45,7 +45,7 @@ public extension CGPoint {
     // Returns a point(x,y) lies between point1(x1,y1) and point2(x2,y2) by distance from point1(x1,y1).
     static func pointWithDistance(point1: CGPoint, point2: CGPoint, distance: CGFloat) -> CGPoint {
         if point1.equalTo(point2) {
-            return .zero
+            return CGPoint.zero
         } else {
             // Finding relative percent from point1 till distance ( 0.0 - 1.0).
             let relativePercent = distance/CGPoint.distance(point1: point1, point2: point2)
