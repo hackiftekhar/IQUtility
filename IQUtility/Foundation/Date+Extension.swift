@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension Date {
+public extension Date {
 
     var startOfDay: Date {
         Calendar.current.startOfDay(for: self)
@@ -44,11 +44,23 @@ extension Date {
     @available(iOS 10.0, *)
     var endOfMonth: Date {
         let interval = Calendar.current.dateInterval(of: .month, for: self)!
-        return Calendar.current.date(byAdding: DateComponents(day: -1), to: interval.end)!
+        return Calendar.current.date(byAdding: DateComponents(second: -1), to: interval.end)!
+    }
+
+    @available(iOS 10.0, *)
+    var startOfWeek: Date {
+        let interval = Calendar.current.dateInterval(of: .weekOfYear, for: self)!
+        return interval.start
+    }
+
+    @available(iOS 10.0, *)
+    var endOfWeek: Date {
+        let interval = Calendar.current.dateInterval(of: .weekOfYear, for: self)!
+        return Calendar.current.date(byAdding: DateComponents(second: -1), to: interval.end)!
     }
 }
 
-extension Date {
+public extension Date {
     func isGreaterThan(date: Date) -> Bool {
         self.compare(date) == .orderedDescending
     }
@@ -57,12 +69,12 @@ extension Date {
         self.compare(date) == .orderedAscending
     }
 
-    func equalTo(date: NSDate) -> Bool {
-        self.compare(date as Date) == .orderedSame
+    func equalTo(date: Date) -> Bool {
+        self.compare(date) == .orderedSame
     }
 }
 
-extension Date {
+public extension Date {
 
     var second: Int {
         Calendar.current.component(.second, from: self)
@@ -91,4 +103,40 @@ extension Date {
     var year: Int {
         Calendar.current.component(.year, from: self)
     }
+}
+
+public extension Date {
+
+    func adding(component: Calendar.Component, value: Int) -> Date {
+        return Calendar.current.date(byAdding: component, value: value, to: self)!
+    }
+
+//    func timeAgoDisplay() -> String {
+//        let calendar = Calendar.current
+//        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: Date())!
+//        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: Date())!
+//        let dayAgo = calendar.date(byAdding: .day, value: -1, to: Date())!
+//        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
+//        if minuteAgo < self {
+//            let diff = Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0
+//            return "\(diff) sec ago"
+//        } else if hourAgo < self {
+//            let diff = Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0
+//            return "\(diff) min ago"
+//        } else if dayAgo < self {
+//            let diff = Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0
+//            return "\(diff) hrs ago"
+//        } else if weekAgo < self {
+//            let diff = Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
+//            return "\(diff) days ago"
+//        } else if self > minuteAgo {
+//            return "just now"
+//        }
+//        //let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear ?? 0
+//        //  return "\(diff) weeks ago"
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "dd-MMM-yyyy"
+//        let dateString = formatter.string(from: self)
+//        return dateString
+//    }
 }

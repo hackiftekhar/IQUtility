@@ -35,4 +35,8 @@ public extension CGFloat {
     var double: Double {
       Double(self)
     }
+
+    var string: String {
+        return String(describing: self)
+    }
 }

@@ -23,7 +23,7 @@
 import Foundation
 import CoreGraphics
 
-extension Float {
+public extension Float {
 
     var cgFloat: CGFloat {
       return CGFloat(self)
@@ -35,5 +35,9 @@ extension Float {
 
     var int: Int {
       return Int(self)
+    }
+
+    var string: String {
+        return String(describing: self)
     }
 }

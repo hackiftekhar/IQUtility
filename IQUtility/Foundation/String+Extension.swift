@@ -42,9 +42,17 @@ public extension String {
                                             attributes: attributes, context: nil)
         return boundingBox.size
     }
+
+    func trimming() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    mutating func trim() {
+        self = self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
-extension String {
+public extension String {
 
     func substring(fromIndex: Int) -> String {
         return self[min(fromIndex, count) ..< count]
@@ -69,5 +77,37 @@ extension String {
             return NSRange(range, in: aString)
         }
         return nil
+    }
+}
+
+public extension String {
+
+    var cgFloat: CGFloat {
+        return float.cgFloat
+    }
+
+    var float: Float {
+        return Float(digits) ?? 0
+    }
+
+    var double: Double {
+        return Double(digits) ?? 0
+    }
+
+    var int: Int {
+        if let int = Int(digits) {
+            return int
+        } else {
+            return Int(float)
+        }
+    }
+
+    var digits: String {
+        var characterSet = CharacterSet.decimalDigits
+        characterSet.insert(".")
+        characterSet.insert("-")
+        characterSet.insert("+")
+        let componentArr = components(separatedBy: characterSet.inverted)
+        return componentArr.joined()
     }
 }

@@ -23,7 +23,7 @@
 import UIKit
 import QuartzCore
 
-@IBDesignable extension UIView {
+@IBDesignable public extension UIView {
 
     @IBInspectable
     var cornerRadius: CGFloat {

@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension Double {
+public extension Double {
 
     /// Rounds the double to decimal places value
     func rounded(toPlaces places: Int) -> Double {
@@ -41,7 +41,7 @@ extension Double {
     }
 }
 
-extension Double {
+public extension Double {
     
     var cgFloat: CGFloat {
       return CGFloat(self)
@@ -53,5 +53,9 @@ extension Double {
 
     var int: Int {
       return Int(self)
+    }
+
+    var string: String {
+        return String(describing: self)
     }
 }

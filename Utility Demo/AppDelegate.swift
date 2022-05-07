@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import IQUtility
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,6 +14,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        let date: Date = Date()
+        if #available(iOS 10.0, *) {
+            print("startOfDay:\(date.startOfDay.description(with: Locale.current))")
+            print("endOfDay:\(date.endOfDay.description(with: Locale.current))")
+            print("startOfMonth:\(date.startOfMonth.description(with: Locale.current))")
+            print("endOfMonth:\(date.endOfMonth.description(with: Locale.current))")
+            print("startOfWeek:\(date.startOfWeek.description(with: Locale.current))")
+            print("endOfWeek:\(date.endOfWeek.description(with: Locale.current))")
+        }
+
         return true
     }
 

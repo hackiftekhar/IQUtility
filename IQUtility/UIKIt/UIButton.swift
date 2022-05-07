@@ -22,7 +22,7 @@
 
 import UIKit
 
-extension UIButton {
+public extension UIButton {
 
     func setImageColor(_ color: UIColor?, for state: UIControl.State) {
         setImage(color?.image, for: state)

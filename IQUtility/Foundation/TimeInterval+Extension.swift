@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension TimeInterval {
+public extension TimeInterval {
 
     var hhmmssString: String {
         Int(self).hhmmssString

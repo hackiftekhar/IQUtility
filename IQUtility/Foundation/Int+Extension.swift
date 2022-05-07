@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension Int {
+public extension Int {
 
     var cgFloat: CGFloat {
       return CGFloat(self)
@@ -35,9 +35,13 @@ extension Int {
     var double: Double {
       return Double(self)
     }
+
+    var string: String {
+        return String(describing: self)
+    }
 }
 
-extension Int {
+public extension Int {
 
     var hhmmssString: String {
         let seconds = self % 60

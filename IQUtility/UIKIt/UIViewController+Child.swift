@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension UIViewController {
+public extension UIViewController {
 
     func add(asChildViewController viewController: UIViewController, inView containerView: UIView? = nil) {
         if let containerView = containerView ?? view {
