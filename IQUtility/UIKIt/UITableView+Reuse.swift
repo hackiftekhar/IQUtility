@@ -1,5 +1,5 @@
 //
-//  UIViewController+Child.swift
+//  UITableView+Reuse.swift
 //  https://github.com/hackiftekhar/IQUtility
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,27 +22,30 @@
 
 import UIKit
 
-public extension UIViewController {
+public extension UITableView {
+    
+    // MARK: - Dequeue
+    func dequeueReusableCell<T: UITableViewCell>(withIdentifier identifier: String? = nil, for indexPath: IndexPath? = nil) -> T {
+        let identifier: String = identifier ?? T.reuseIdentifier
 
-    func add(asChildViewController viewController: UIViewController, inView containerView: UIView? = nil) {
-        if let containerView = containerView ?? view {
-            addChild(viewController)
-
-            let bounds = containerView.bounds
-            containerView.addSubview(viewController.view)
-            viewController.view.frame = bounds
-            viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            viewController.didMove(toParent: self)
+        if let indexPath = indexPath {
+            guard let cell =  dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? T else {
+                fatalError("Unable to dequeue cell \(T.self)")
+            }
+            return cell
+        } else {
+            guard let cell =  dequeueReusableCell(withIdentifier: identifier) as? T else {
+                fatalError("Unable to dequeue cell \(T.self)")
+            }
+            return cell
         }
     }
-
-    func remove(asChildViewController viewController: UIViewController) {
-
-        if viewController.parent != nil {
-            viewController.willMove(toParent: nil)
-            viewController.view.removeFromSuperview()
-            viewController.removeFromParent()
+    
+    func dequeueReusableHeaderFooter<T: UIView>(withIdentifier identifier: String? = nil) -> T {
+        let identifier: String = identifier ?? T.reuseIdentifier
+        guard let view =  dequeueReusableHeaderFooterView(withIdentifier: identifier) as? T else {
+            fatalError("Unable to dequeue header/footer \(T.self)")
         }
+        return view
     }
 }

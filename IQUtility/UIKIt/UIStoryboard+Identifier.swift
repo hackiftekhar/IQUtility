@@ -1,5 +1,5 @@
 //
-//  UIViewController+Child.swift
+//  UIStoryboard+Identifier.swift
 //  https://github.com/hackiftekhar/IQUtility
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,27 +22,13 @@
 
 import UIKit
 
-public extension UIViewController {
+public extension UIStoryboard {
 
-    func add(asChildViewController viewController: UIViewController, inView containerView: UIView? = nil) {
-        if let containerView = containerView ?? view {
-            addChild(viewController)
-
-            let bounds = containerView.bounds
-            containerView.addSubview(viewController.view)
-            viewController.view.frame = bounds
-            viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            viewController.didMove(toParent: self)
+    func instantiateViewController<T: UIViewController>(identifier: String? = nil) -> T {
+        let identifier = identifier ?? String(describing: self)
+        guard let viewController = instantiateViewController(withIdentifier: identifier) as? T else {
+            fatalError("Could not instantiate view controller with identifier \(identifier)")
         }
-    }
-
-    func remove(asChildViewController viewController: UIViewController) {
-
-        if viewController.parent != nil {
-            viewController.willMove(toParent: nil)
-            viewController.view.removeFromSuperview()
-            viewController.removeFromParent()
-        }
+        return viewController
     }
 }

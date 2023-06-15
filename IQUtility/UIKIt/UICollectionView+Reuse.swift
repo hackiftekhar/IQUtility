@@ -1,5 +1,5 @@
 //
-//  UIViewController+Child.swift
+//  UICollectionView+Reuse.swift
 //  https://github.com/hackiftekhar/IQUtility
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,27 +22,28 @@
 
 import UIKit
 
-public extension UIViewController {
+public extension UICollectionView {
 
-    func add(asChildViewController viewController: UIViewController, inView containerView: UIView? = nil) {
-        if let containerView = containerView ?? view {
-            addChild(viewController)
+    // MARK: - Dequeue
+    func dequeueReusableCell<T: UICollectionViewCell>(withIdentifier identifier: String? = nil, for indexPath: IndexPath) -> T {
+        let identifier: String = identifier ?? T.reuseIdentifier
 
-            let bounds = containerView.bounds
-            containerView.addSubview(viewController.view)
-            viewController.view.frame = bounds
-            viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            viewController.didMove(toParent: self)
+        guard let cell =  dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? T else {
+            fatalError("Unable to dequeue cell \(T.self)")
         }
+        return cell
     }
 
-    func remove(asChildViewController viewController: UIViewController) {
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind: String,
+                                                                              withIdentifier identifier: String? = nil,
+                                                                              for indexPath: IndexPath) -> T {
+        let identifier: String = identifier ?? T.reuseIdentifier
 
-        if viewController.parent != nil {
-            viewController.willMove(toParent: nil)
-            viewController.view.removeFromSuperview()
-            viewController.removeFromParent()
+        guard let view = dequeueReusableSupplementaryView(ofKind: ofKind,
+                                                          withReuseIdentifier: identifier,
+                                                          for: indexPath) as? T else {
+            fatalError("Unable to dequeue\(ofKind) \(T.self)")
         }
+        return view
     }
 }

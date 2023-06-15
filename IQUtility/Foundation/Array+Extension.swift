@@ -22,6 +22,14 @@
 
 import Foundation
 
+extension Array {
+    /// Return an optional `Element` value when the given index is not available in this array.
+    public subscript (safe index: Int) -> Element? {
+        guard 0..<count ~= index else { return nil }
+        return self[index]
+    }
+}
+
 public extension Array where Element: Equatable {
 
     mutating func remove(_ element: Element) -> Element? {
@@ -30,5 +38,13 @@ public extension Array where Element: Equatable {
         }
 
         return nil
+    }
+}
+
+public extension Array where Element: Hashable {
+
+    var unique: [Element] {
+        var set: Set<Element> = []
+        return reduce(into: []) { set.insert($1).inserted ? $0.append($1) : () }
     }
 }

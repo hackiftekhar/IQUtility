@@ -1,5 +1,5 @@
 //
-//  UIViewController+Child.swift
+//  UIView+Controller.swift
 //  https://github.com/hackiftekhar/IQUtility
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,27 +22,33 @@
 
 import UIKit
 
-public extension UIViewController {
+public extension UIView {
+    /// Return the controller that is responsible for managing this view.
+    var viewController: UIViewController? {
 
-    func add(asChildViewController viewController: UIViewController, inView containerView: UIView? = nil) {
-        if let containerView = containerView ?? view {
-            addChild(viewController)
+        var responder: UIResponder? = self
+        repeat {
+            responder = responder?.next
+            if let viewController = responder as? UIViewController {
+                return viewController
+            }
+        } while(responder != nil)
 
-            let bounds = containerView.bounds
-            containerView.addSubview(viewController.view)
-            viewController.view.frame = bounds
-            viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            viewController.didMove(toParent: self)
-        }
+        return nil
     }
 
-    func remove(asChildViewController viewController: UIViewController) {
+    /// Return the name of the view's class as it's reuse identifier.
+    class var reuseIdentifier: String {
+        return String(describing: self)
+    }
 
-        if viewController.parent != nil {
-            viewController.willMove(toParent: nil)
-            viewController.view.removeFromSuperview()
-            viewController.removeFromParent()
+    class func loadFromNib<View: UIView>() -> View {
+        let nibName = View.reuseIdentifier
+        let nib = UINib(nibName: nibName, bundle: Bundle(for: View.self))
+        let views = nib.instantiate(withOwner: nil, options: nil)
+        guard let view = views.first as? View else {
+            fatalError("Unable to find \(nibName)")
         }
+        return view
     }
 }

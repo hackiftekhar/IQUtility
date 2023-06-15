@@ -24,6 +24,15 @@ import Foundation
 
 public extension Date {
 
+    @available(iOS 10.0, *)
+    init?(iso8601Date dateString: String) {
+        guard let date = DateFormatter.iso8601Formatter.date(from: dateString) else { return nil }
+        self = date
+    }
+}
+
+public extension Date {
+
     var startOfDay: Date {
         Calendar.current.startOfDay(for: self)
     }

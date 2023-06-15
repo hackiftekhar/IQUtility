@@ -24,11 +24,11 @@ import CoreGraphics
 
 public extension CGFloat {
 
-    var radianAngle: CGFloat {
+    var degreesToRadians: CGFloat {
         self*(CGFloat.pi/180.0)
     }
 
-    var degreeAngle: CGFloat {
+    var radiansToDegrees: CGFloat {
         self*(180.0/CGFloat.pi)
     }
 

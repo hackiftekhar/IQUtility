@@ -66,4 +66,35 @@ public extension UIColor {
         UIGraphicsEndImageContext()
         return img ?? UIImage()
     }
+
+    func lightened(by percentage: CGFloat) -> UIColor {
+        return self.brightnessAdjusted(by: abs(percentage) )
+    }
+
+    func darkened(by percentage: CGFloat) -> UIColor {
+        return self.brightnessAdjusted(by: -1 * abs(percentage) )
+    }
+
+    var averageBrightness: CGFloat {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if (self.getRed(&r, green: &g, blue: &b, alpha: &a)) {
+            return (r + g + b) / 3.0
+        }
+        else {
+            return 1.0
+        }
+    }
+
+    func brightnessAdjusted(by percentage: CGFloat) -> UIColor {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if (self.getRed(&r, green: &g, blue: &b, alpha: &a)) {
+            return UIColor(red: min(r + percentage, 1.0),
+                           green: min(g + percentage, 1.0),
+                           blue: min(b + percentage, 1.0),
+                           alpha: a)
+        }
+        else {
+            return .black
+        }
+    }
 }

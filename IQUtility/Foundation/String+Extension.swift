@@ -29,7 +29,7 @@ public extension String {
         return String(String.UnicodeScalarView(passed))
     }
 
-    func contains(find: String, options: NSString.CompareOptions = []) -> Bool {
+    func contains<T: StringProtocol>(find: T, options: NSString.CompareOptions = []) -> Bool {
         return self.range(of: find, options: options) != nil
     }
 
@@ -49,6 +49,11 @@ public extension String {
 
     mutating func trim() {
         self = self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Returns a localized string
+    var localizedString: String {
+        return NSLocalizedString(self, comment: self)
     }
 }
 

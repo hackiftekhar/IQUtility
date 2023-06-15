@@ -1,5 +1,5 @@
 //
-//  UIViewController+Child.swift
+//  UIApplication.swift
 //  https://github.com/hackiftekhar/IQUtility
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,27 +22,22 @@
 
 import UIKit
 
-public extension UIViewController {
+public extension UIApplication {
 
-    func add(asChildViewController viewController: UIViewController, inView containerView: UIView? = nil) {
-        if let containerView = containerView ?? view {
-            addChild(viewController)
-
-            let bounds = containerView.bounds
-            containerView.addSubview(viewController.view)
-            viewController.view.frame = bounds
-            viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            viewController.didMove(toParent: self)
-        }
+    static var bundleIdentifier: String {
+        return Bundle.main.bundleIdentifier!
     }
 
-    func remove(asChildViewController viewController: UIViewController) {
+    // swiftlint:disable force_cast
+    static var buildVersion: String {
+        return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+    }
 
-        if viewController.parent != nil {
-            viewController.willMove(toParent: nil)
-            viewController.view.removeFromSuperview()
-            viewController.removeFromParent()
-        }
+    static var appVersion: String {
+        return Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+    }
+
+    static var bundleName: String {
+        return Bundle.main.infoDictionary!["CFBundleName"] as! String
     }
 }
